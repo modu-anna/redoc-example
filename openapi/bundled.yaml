@@ -3,8 +3,7 @@ info:
   title: MODU COMPANY OPEN API
   version: 1.0.0
   description: |-
-    description: |
-    # 시작 | Getting Started
+₩₩    # 시작 | Getting Started
     모두의 주차장은 대한민국 1등 주차 앱으로, 주차장 정보를 한눈에 볼 수 있습니다. 당일 주차부터 월 정기 주차, 그리고 공유 주차까지 다양한 주차 옵션을 제공합니다.
 
     당일 주차: 필요한 날짜와 시간에 주차장을 이용하세요.
@@ -2306,31 +2305,6 @@ paths:
                 items:
                   $ref: '#/components/schemas/VideoArticle'
 components:
-  securitySchemes:
-    api-key:
-      type: apiKey
-      name: api-key
-      in: header
-      description: |-
-        API Key authentication.
-
-        Authentication for some endpoints, like write operations on the
-        Articles API require a DEV API key.
-
-        All authenticated endpoints are CORS disabled, the API key is intended for non-browser scripts.
-
-        ### Getting an API key
-
-        To obtain one, please follow these steps:
-
-          - visit https://dev.to/settings/extensions
-          - in the "DEV API Keys" section create a new key by adding a
-            description and clicking on "Generate API Key"
-
-            ![obtain a DEV API Key](https://user-images.githubusercontent.com/37842/172718105-bd93664e-76e0-477d-99c4-265dda0b06c5.png)
-
-          - You'll see the newly generated key in the same view
-            ![generated DEV API Key](https://user-images.githubusercontent.com/37842/172718151-e7fe26a0-9937-42e8-96c6-333acdab9e49.png)
   parameters:
     pageParam:
       in: query
