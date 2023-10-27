@@ -1,15 +1,31 @@
 openapi: 3.0.3
 info:
-  title: Forem API V1
+  title: MODU COMPANY OPEN API
   version: 1.0.0
   description: |-
-    Access Forem articles, users and other resources via API.
-            For a real-world example of Forem in action, check out [DEV](https://www.dev.to).
-            All endpoints can be accessed with the 'api-key' header and a accept header, but
-            some of them are accessible publicly without authentication.
+    description: |
+    # 시작 | Getting Started
+    모두의 주차장은 대한민국 1등 주차 앱으로, 주차장 정보를 한눈에 볼 수 있습니다. 당일 주차부터 월 정기 주차, 그리고 공유 주차까지 다양한 주차 옵션을 제공합니다.
 
-            Dates and date times, unless otherwise specified, must be in
-            the [RFC 3339](https://tools.ietf.org/html/rfc3339) format.
+    당일 주차: 필요한 날짜와 시간에 주차장을 이용하세요.
+    월 정기 주차: 월별로 주차장을 이용할 수 있는 정기 주차 옵션을 선택하세요.
+    공유 주차: 자신의 주차장을 다른 이용자와 공유하며 수익을 창출하세요.
+
+    모두의 주차장은 개발자와 파트너를 위해 Open API를 제공합니다. 이를 통해 주차장 정보, 예약, 결제 등의 기능을 자체 앱이나 웹사이트에 통합하여 사용할 수 있습니다.
+
+    # 가격
+    가격에 대한 문의는 카카오톡이나 이메일로 문의해주세요.🙏🏻
+
+
+    # 제한
+    This API features Cross-Origin Resource Sharing (CORS) implemented in compliance with  [W3C spec](https://www.w3.org/TR/cors/).
+    And that allows cross-domain communication from the browser.
+    All responses have a wildcard same-origin which makes them completely public and accessible to everyone, including any code on any site.
+
+
+    # 인증
+    API 인증은 다음과 같은 방식을 지원합니다.
+      - API Key
 servers:
   - url: https://dev.to/api
     description: Production server
@@ -2326,6 +2342,17 @@ components:
         format: int32
         minimum: 1
         default: 1
+    perPageParam30to1000:
+      in: query
+      name: per_page
+      required: false
+      description: Page size (the number of items to return per page). The default maximum value can be overridden by "API_PER_PAGE_MAX" environment variable.
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+        maximum: 1000
+        default: 30
     perPageParam10to1000:
       in: query
       name: per_page
@@ -2348,49 +2375,31 @@ components:
         minimum: 1
         maximum: 1000
         default: 24
-    perPageParam30to1000:
-      in: query
-      name: per_page
-      required: false
-      description: Page size (the number of items to return per page). The default maximum value can be overridden by "API_PER_PAGE_MAX" environment variable.
-      schema:
-        type: integer
-        format: int32
-        minimum: 1
-        maximum: 1000
-        default: 30
-    perPageParam30to100:
-      in: query
-      name: per_page
-      required: false
-      description: Page size (the number of items to return per page). The default maximum value can be overridden by "API_PER_PAGE_MAX" environment variable.
-      schema:
-        type: integer
-        format: int32
-        minimum: 1
-        maximum: 100
-        default: 30
-    perPageParam80to1000:
-      in: query
-      name: per_page
-      required: false
-      description: Page size (the number of items to return per page). The default maximum value can be overridden by "API_PER_PAGE_MAX" environment variable.
-      schema:
-        type: integer
-        format: int32
-        minimum: 1
-        maximum: 1000
-        default: 80
-    listingCategoryParam:
-      name: category
-      in: query
-      description: |-
-        Using this parameter will return listings belonging to the
-                      requested category.
-      schema:
-        type: string
-      example: cfp
   schemas:
+    SharedUser:
+      description: The resource creator
+      type: object
+      properties:
+        name:
+          type: string
+        username:
+          type: string
+        twitter_username:
+          type: string
+          nullable: true
+        github_username:
+          type: string
+          nullable: true
+        website_url:
+          type: string
+          format: url
+          nullable: true
+        profile_image:
+          description: Profile image (640x640)
+          type: string
+        profile_image_90:
+          description: Profile image (90x90)
+          type: string
     ArticleFlareTag:
       description: Flare tag of the article
       type: object
@@ -2405,6 +2414,24 @@ components:
           description: Text color (hexadecimal)
           type: string
           nullable: true
+    SharedOrganization:
+      description: The organization the resource belongs to
+      type: object
+      properties:
+        name:
+          type: string
+        username:
+          type: string
+        slug:
+          type: string
+        profile_image:
+          description: Profile image (640x640)
+          type: string
+          format: url
+        profile_image_90:
+          description: Profile image (90x90)
+          type: string
+          format: url
     ArticleIndex:
       description: Representation of an article or post returned in a list
       type: object
@@ -2506,34 +2533,6 @@ components:
         - published_timestamp
         - user
         - reading_time_minutes
-    VideoArticle:
-      description: Representation of an Article with video
-      type: object
-      properties:
-        type_of:
-          type: string
-        id:
-          type: integer
-          format: int64
-        path:
-          type: string
-        cloudinary_video_url:
-          type: string
-        title:
-          type: string
-        user_id:
-          type: integer
-          format: int64
-        video_duration_in_minutes:
-          type: string
-        video_source_url:
-          type: string
-        user:
-          description: Author of the article
-          type: object
-          properties:
-            name:
-              type: string
     Article:
       description: Representation of an Article to be created/updated
       type: object
@@ -2564,240 +2563,6 @@ components:
             organization_id:
               type: integer
               nullable: true
-    Organization:
-      description: Representation of an Organization
-      type: object
-      properties:
-        type_of:
-          type: string
-        username:
-          type: string
-        name:
-          type: string
-        summary:
-          type: string
-        twitter_username:
-          type: string
-        github_username:
-          type: string
-        url:
-          type: string
-        location:
-          type: string
-        joined_at:
-          type: string
-        tech_stack:
-          type: string
-        tag_line:
-          type: string
-          nullable: true
-        story:
-          type: string
-          nullable: true
-    FollowedTag:
-      description: Representation of a followed tag
-      type: object
-      properties:
-        id:
-          description: Tag id
-          type: integer
-          format: int64
-        name:
-          type: string
-        points:
-          type: number
-          format: float
-      required:
-        - id
-        - name
-        - points
-    Tag:
-      description: Representation of a tag
-      type: object
-      properties:
-        id:
-          description: Tag id
-          type: integer
-          format: int64
-        name:
-          type: string
-        bg_color_hex:
-          type: string
-          nullable: true
-        text_color_hex:
-          type: string
-          nullable: true
-    Page:
-      description: Representation of a page object
-      type: object
-      properties:
-        title:
-          type: string
-          description: Title of the page
-        slug:
-          type: string
-          description: Used to link to this page in URLs, must be unique and URL-safe
-        description:
-          type: string
-          description: For internal use, helps similar pages from one another
-        body_markdown:
-          type: string
-          description: The text (in markdown) of the ad (required)
-          nullable: true
-        body_json:
-          type: string
-          description: For JSON pages, the JSON body
-          nullable: true
-        is_top_level_path:
-          type: boolean
-          description: If true, the page is available at '/{slug}' instead of '/page/{slug}', use with caution
-        social_image:
-          type: object
-          nullable: true
-        template:
-          type: string
-          enum:
-            - contained
-            - full_within_layout
-            - nav_bar_included
-            - json
-          default: contained
-          description: Controls what kind of layout the page is rendered in
-      required:
-        - title
-        - slug
-        - description
-        - template
-    PodcastEpisodeIndex:
-      description: Representation of a podcast episode returned in a list
-      type: object
-      properties:
-        type_of:
-          type: string
-        id:
-          type: integer
-          format: int32
-        class_name:
-          type: string
-        path:
-          type: string
-          format: path
-        title:
-          type: string
-        image_url:
-          description: Podcast episode image url or podcast image url
-          type: string
-          format: url
-        podcast:
-          $ref: '#/components/schemas/SharedPodcast'
-      required:
-        - type_of
-        - class_name
-        - id
-        - path
-        - title
-        - image_url
-        - podcast
-    ProfileImage:
-      description: A profile image object
-      type: object
-      properties:
-        type_of:
-          description: Return profile_image
-          type: string
-        image_of:
-          description: Determines the type of the profile image owner (user or organization)
-          type: string
-        profile_image:
-          description: Profile image (640x640)
-          type: string
-        profile_image_90:
-          description: Profile image (90x90)
-          type: string
-    SharedUser:
-      description: The resource creator
-      type: object
-      properties:
-        name:
-          type: string
-        username:
-          type: string
-        twitter_username:
-          type: string
-          nullable: true
-        github_username:
-          type: string
-          nullable: true
-        website_url:
-          type: string
-          format: url
-          nullable: true
-        profile_image:
-          description: Profile image (640x640)
-          type: string
-        profile_image_90:
-          description: Profile image (90x90)
-          type: string
-    SharedOrganization:
-      description: The organization the resource belongs to
-      type: object
-      properties:
-        name:
-          type: string
-        username:
-          type: string
-        slug:
-          type: string
-        profile_image:
-          description: Profile image (640x640)
-          type: string
-          format: url
-        profile_image_90:
-          description: Profile image (90x90)
-          type: string
-          format: url
-    User:
-      description: The representation of a user
-      type: object
-      properties:
-        type_of:
-          type: string
-        id:
-          type: integer
-          format: int64
-        username:
-          type: string
-        name:
-          type: string
-        summary:
-          type: string
-          nullable: true
-        twitter_username:
-          type: string
-        github_username:
-          type: string
-        website_url:
-          type: string
-          nullable: true
-        location:
-          type: string
-          nullable: true
-        joined_at:
-          type: string
-        profile_image:
-          type: string
-    SharedPodcast:
-      description: The podcast that the resource belongs to
-      type: object
-      properties:
-        title:
-          type: string
-        slug:
-          type: string
-        image_url:
-          description: Podcast image url
-          type: string
-          format: url
     Comment:
       description: A Comment on an Article or Podcast Episode
       type: object
@@ -2813,15 +2578,6 @@ components:
           description: Podcast image url
           type: string
           format: url
-    UserInviteParam:
-      description: User invite parameters
-      type: object
-      properties:
-        email:
-          type: string
-        name:
-          type: string
-          nullable: true
     DisplayAd:
       description: A Display Ad, aka Billboard, aka Widget
       type: object
@@ -2908,3 +2664,232 @@ components:
         - name
         - body_markdown
         - placement_area
+    FollowedTag:
+      description: Representation of a followed tag
+      type: object
+      properties:
+        id:
+          description: Tag id
+          type: integer
+          format: int64
+        name:
+          type: string
+        points:
+          type: number
+          format: float
+      required:
+        - id
+        - name
+        - points
+    Organization:
+      description: Representation of an Organization
+      type: object
+      properties:
+        type_of:
+          type: string
+        username:
+          type: string
+        name:
+          type: string
+        summary:
+          type: string
+        twitter_username:
+          type: string
+        github_username:
+          type: string
+        url:
+          type: string
+        location:
+          type: string
+        joined_at:
+          type: string
+        tech_stack:
+          type: string
+        tag_line:
+          type: string
+          nullable: true
+        story:
+          type: string
+          nullable: true
+    User:
+      description: The representation of a user
+      type: object
+      properties:
+        type_of:
+          type: string
+        id:
+          type: integer
+          format: int64
+        username:
+          type: string
+        name:
+          type: string
+        summary:
+          type: string
+          nullable: true
+        twitter_username:
+          type: string
+        github_username:
+          type: string
+        website_url:
+          type: string
+          nullable: true
+        location:
+          type: string
+          nullable: true
+        joined_at:
+          type: string
+        profile_image:
+          type: string
+    Page:
+      description: Representation of a page object
+      type: object
+      properties:
+        title:
+          type: string
+          description: Title of the page
+        slug:
+          type: string
+          description: Used to link to this page in URLs, must be unique and URL-safe
+        description:
+          type: string
+          description: For internal use, helps similar pages from one another
+        body_markdown:
+          type: string
+          description: The text (in markdown) of the ad (required)
+          nullable: true
+        body_json:
+          type: string
+          description: For JSON pages, the JSON body
+          nullable: true
+        is_top_level_path:
+          type: boolean
+          description: If true, the page is available at '/{slug}' instead of '/page/{slug}', use with caution
+        social_image:
+          type: object
+          nullable: true
+        template:
+          type: string
+          enum:
+            - contained
+            - full_within_layout
+            - nav_bar_included
+            - json
+          default: contained
+          description: Controls what kind of layout the page is rendered in
+      required:
+        - title
+        - slug
+        - description
+        - template
+    SharedPodcast:
+      description: The podcast that the resource belongs to
+      type: object
+      properties:
+        title:
+          type: string
+        slug:
+          type: string
+        image_url:
+          description: Podcast image url
+          type: string
+          format: url
+    PodcastEpisodeIndex:
+      description: Representation of a podcast episode returned in a list
+      type: object
+      properties:
+        type_of:
+          type: string
+        id:
+          type: integer
+          format: int32
+        class_name:
+          type: string
+        path:
+          type: string
+          format: path
+        title:
+          type: string
+        image_url:
+          description: Podcast episode image url or podcast image url
+          type: string
+          format: url
+        podcast:
+          $ref: '#/components/schemas/SharedPodcast'
+      required:
+        - type_of
+        - class_name
+        - id
+        - path
+        - title
+        - image_url
+        - podcast
+    ProfileImage:
+      description: A profile image object
+      type: object
+      properties:
+        type_of:
+          description: Return profile_image
+          type: string
+        image_of:
+          description: Determines the type of the profile image owner (user or organization)
+          type: string
+        profile_image:
+          description: Profile image (640x640)
+          type: string
+        profile_image_90:
+          description: Profile image (90x90)
+          type: string
+    Tag:
+      description: Representation of a tag
+      type: object
+      properties:
+        id:
+          description: Tag id
+          type: integer
+          format: int64
+        name:
+          type: string
+        bg_color_hex:
+          type: string
+          nullable: true
+        text_color_hex:
+          type: string
+          nullable: true
+    UserInviteParam:
+      description: User invite parameters
+      type: object
+      properties:
+        email:
+          type: string
+        name:
+          type: string
+          nullable: true
+    VideoArticle:
+      description: Representation of an Article with video
+      type: object
+      properties:
+        type_of:
+          type: string
+        id:
+          type: integer
+          format: int64
+        path:
+          type: string
+        cloudinary_video_url:
+          type: string
+        title:
+          type: string
+        user_id:
+          type: integer
+          format: int64
+        video_duration_in_minutes:
+          type: string
+        video_source_url:
+          type: string
+        user:
+          description: Author of the article
+          type: object
+          properties:
+            name:
+              type: string

@@ -1,9 +1,9 @@
 {
   "openapi": "3.0.3",
   "info": {
-    "title": "Forem API V1",
+    "title": "MODU COMPANY OPEN API",
     "version": "1.0.0",
-    "description": "Access Forem articles, users and other resources via API.\n        For a real-world example of Forem in action, check out [DEV](https://www.dev.to).\n        All endpoints can be accessed with the 'api-key' header and a accept header, but\n        some of them are accessible publicly without authentication.\n\n        Dates and date times, unless otherwise specified, must be in\n        the [RFC 3339](https://tools.ietf.org/html/rfc3339) format."
+    "description": "# 시작 | Getting Started\n모두의 주차장은 대한민국 1등 주차 앱으로, 주차장 정보를 한눈에 볼 수 있습니다. 당일 주차부터 월 정기 주차, 그리고 공유 주차까지 다양한 주차 옵션을 제공합니다.\n\n당일 주차: 필요한 날짜와 시간에 주차장을 이용하세요.\n월 정기 주차: 월별로 주차장을 이용할 수 있는 정기 주차 옵션을 선택하세요.\n공유 주차: 자신의 주차장을 다른 이용자와 공유하며 수익을 창출하세요.\n\n모두의 주차장은 개발자와 파트너를 위해 Open API를 제공합니다. 이를 통해 주차장 정보, 예약, 결제 등의 기능을 자체 앱이나 웹사이트에 통합하여 사용할 수 있습니다.\n\n# 가격\n가격에 대한 문의는 카카오톡이나 이메일로 문의해주세요.🙏🏻\n\n\n# 제한\nThis API features Cross-Origin Resource Sharing (CORS) implemented in compliance with  [W3C spec](https://www.w3.org/TR/cors/).\nAnd that allows cross-domain communication from the browser.\nAll responses have a wildcard same-origin which makes them completely public and accessible to everyone, including any code on any site.\n\n\n# 인증\nAPI 인증은 다음과 같은 방식을 지원합니다.\n  - API Key"
   },
   "servers": [
     {
