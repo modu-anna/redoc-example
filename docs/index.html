@@ -1,24 +1,44 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <title>ReDoc</title>
-  <!-- needed for adaptive design -->
-  <meta charset="utf-8"/>
+  <title>MODU OPEN API</title>
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700|Roboto:300,400,700" rel="stylesheet">
 
-  <!--
-  ReDoc doesn't change outer page styles
-  -->
   <style>
     body {
       margin: 0;
       padding: 0;
     }
+
+    #api-version-selector {
+      margin: 10px;
+    }
   </style>
 </head>
+
 <body>
-<redoc spec-url='https://raw.githubusercontent.com/modu-anna/redoc-example/main/openapi/dist.json'></redoc>
-<script src="https://cdn.jsdelivr.net/npm/redoc@2.0.0-rc.26/bundles/redoc.standalone.js"> </script>
+
+<select id="api-version-selector">
+  <option value="dist.json">Version 1</option>
+  <option value="dist2.json">Version 2</option>
+  <!-- 여기에 추가적인 버전들을 추가 -->
+</select>
+
+<redoc spec-url='dist.json'></redoc>
+
+<script src="https://cdn.redoc.ly/redoc/latest/bundles/redoc.standalone.js"> </script>
+<script>
+  const versionSelector = document.getElementById('api-version-selector');
+  const redocContainer = document.querySelector('redoc');
+
+  versionSelector.addEventListener('change', (e) => {
+    const selectedVersion = e.target.value;
+    redocContainer.setAttribute('spec-url', selectedVersion);
+  });
+</script>
 </body>
+
 </html>

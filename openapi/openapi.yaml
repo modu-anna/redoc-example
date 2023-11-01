@@ -2,6 +2,13 @@ openapi: 3.0.3
 info:
   title: MODU COMPANY OPEN API
   version: 1.0.0
+  contact:
+    name: MODU PARKING
+    email: contact@moduparking.com
+    url: https://moduparking.com
+  x-logo:
+    url: https://admin.modu.cloud/assets/modu_logo-ad9db1ba.png
+    altText: moduparking logo
   description: >-
     # 시작 | Getting Started
 
